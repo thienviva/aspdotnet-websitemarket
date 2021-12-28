@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,24 +11,30 @@ using WebMarket.Models;
 namespace WebMarket.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class AdminRolesController : Controller
+    public class AdminAccountsController : Controller
     {
         private readonly MarketContext _context;
-        public INotyfService _notyfService { get; }
 
-        public AdminRolesController(MarketContext context, INotyfService notyfService)
+        public AdminAccountsController(MarketContext context)
         {
             _context = context;
-            _notyfService = notyfService;
         }
 
-        // GET: Admin/AdminRoles
+        // GET: Admin/AdminAccounts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Roles.ToListAsync());
+            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "Description");
+            
+            List<SelectListItem> lsTrangThai = new List<SelectListItem>();
+            lsTrangThai.Add(new SelectListItem() { Text = "Active", Value = "1" });
+            lsTrangThai.Add(new SelectListItem() { Text = "Block", Value = "0" });
+            ViewData["lsTrangThai"] = lsTrangThai; 
+
+            var marketContext = _context.Accounts.Include(a => a.Role);
+            return View(await marketContext.ToListAsync());
         }
 
-        // GET: Admin/AdminRoles/Details/5
+        // GET: Admin/AdminAccounts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,40 +42,42 @@ namespace WebMarket.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RoleId == id);
-            if (role == null)
+            var account = await _context.Accounts
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(m => m.AccountId == id);
+            if (account == null)
             {
                 return NotFound();
             }
 
-            return View(role);
+            return View(account);
         }
 
-        // GET: Admin/AdminRoles/Create
+        // GET: Admin/AdminAccounts/Create
         public IActionResult Create()
         {
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId");
             return View();
         }
 
-        // POST: Admin/AdminRoles/Create
+        // POST: Admin/AdminAccounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoleId,RoleName,Description")] Role role)
+        public async Task<IActionResult> Create([Bind("AccountId,Phone,Email,Password,Salt,Active,FullName,RoleId,LastLogin,CreateDate")] Account account)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(role);
+                _context.Add(account);
                 await _context.SaveChangesAsync();
-                _notyfService.Success("Tạo mới thành công");
                 return RedirectToAction(nameof(Index));
             }
-            return View(role);
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            return View(account);
         }
 
-        // GET: Admin/AdminRoles/Edit/5
+        // GET: Admin/AdminAccounts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +85,23 @@ namespace WebMarket.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Roles.FindAsync(id);
-            if (role == null)
+            var account = await _context.Accounts.FindAsync(id);
+            if (account == null)
             {
                 return NotFound();
             }
-            return View(role);
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            return View(account);
         }
 
-        // POST: Admin/AdminRoles/Edit/5
+        // POST: Admin/AdminAccounts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoleId,RoleName,Description")] Role role)
+        public async Task<IActionResult> Edit(int id, [Bind("AccountId,Phone,Email,Password,Salt,Active,FullName,RoleId,LastLogin,CreateDate")] Account account)
         {
-            if (id != role.RoleId)
+            if (id != account.AccountId)
             {
                 return NotFound();
             }
@@ -102,15 +110,13 @@ namespace WebMarket.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(role);
+                    _context.Update(account);
                     await _context.SaveChangesAsync();
-                    _notyfService.Success("Cập nhật thành công");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoleExists(role.RoleId))
+                    if (!AccountExists(account.AccountId))
                     {
-                        _notyfService.Error("Có lỗi xảy ra");
                         return NotFound();
                     }
                     else
@@ -120,10 +126,11 @@ namespace WebMarket.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(role);
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            return View(account);
         }
 
-        // GET: Admin/AdminRoles/Delete/5
+        // GET: Admin/AdminAccounts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,31 +138,31 @@ namespace WebMarket.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RoleId == id);
-            if (role == null)
+            var account = await _context.Accounts
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(m => m.AccountId == id);
+            if (account == null)
             {
                 return NotFound();
             }
 
-            return View(role);
+            return View(account);
         }
 
-        // POST: Admin/AdminRoles/Delete/5
+        // POST: Admin/AdminAccounts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
-            _context.Roles.Remove(role);
+            var account = await _context.Accounts.FindAsync(id);
+            _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
-            _notyfService.Success("Xóa quyền truy cập thành công");
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RoleExists(int id)
+        private bool AccountExists(int id)
         {
-            return _context.Roles.Any(e => e.RoleId == id);
+            return _context.Accounts.Any(e => e.AccountId == id);
         }
     }
 }
