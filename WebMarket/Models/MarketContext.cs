@@ -153,6 +153,11 @@ namespace WebMarket.Models
                 entity.Property(e => e.Salt)
                     .HasMaxLength(8)
                     .IsFixedLength();
+
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.Customers)
+                    .HasForeignKey(d => d.LocationId)
+                    .HasConstraintName("FK_Customers_Locations");
             });
 
             modelBuilder.Entity<Location>(entity =>

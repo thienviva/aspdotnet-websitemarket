@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "HxBcbX1RZDSxT9osQR6IcgbzNrK0lI17mf1ivm7i9Dr4+A0ctRXsRA+1lX7VKRBfSoU+V7AFduc15LqO6Ux+Uw==",
+  "dgSpecHash": "GVQjGdhkp14fsezJoaIngllAZMmEayvelUp9eT9KCmO5EPr3slRXz6eNuQtRADBt9861ZAcBeygDbjOkr6MV9A==",
   "success": true,
   "projectFilePath": "E:\\Git\\WebMarket\\WebMarket\\WebMarket.csproj",
   "expectedPackageFiles": [
@@ -85,6 +85,7 @@
     "C:\\Users\\thien\\.nuget\\packages\\nuget.protocol\\5.11.0\\nuget.protocol.5.11.0.nupkg.sha512",
     "C:\\Users\\thien\\.nuget\\packages\\nuget.versioning\\5.11.0\\nuget.versioning.5.11.0.nupkg.sha512",
     "C:\\Users\\thien\\.nuget\\packages\\pagedlist.core\\1.17.4\\pagedlist.core.1.17.4.nupkg.sha512",
+    "C:\\Users\\thien\\.nuget\\packages\\pagedlist.core.mvc\\3.0.0\\pagedlist.core.mvc.3.0.0.nupkg.sha512",
     "C:\\Users\\thien\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\thien\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\thien\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",

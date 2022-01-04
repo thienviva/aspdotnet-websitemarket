@@ -1638,6 +1638,21 @@
           "lib/netcoreapp1.0/PagedList.Core.dll": {}
         }
       },
+      "PagedList.Core.Mvc/3.0.0": {
+        "type": "package",
+        "dependencies": {
+          "PagedList.Core": "1.17.4"
+        },
+        "compile": {
+          "lib/netcoreapp3.0/PagedList.Core.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/PagedList.Core.Mvc.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
         "type": "package",
         "runtimeTargets": {
@@ -5661,6 +5676,18 @@
         "lib/netstandard1.6/PagedList.Core.pdb",
         "pagedlist.core.1.17.4.nupkg.sha512",
         "pagedlist.core.nuspec"
+      ]
+    },
+    "PagedList.Core.Mvc/3.0.0": {
+      "sha512": "cfMopTUyfyDcZ/HL58w9DWmlb6M9yYYaJ0i3c1j8bGeZCHRyfX3Y5rDnPa1olFdqJmh8sRIx2aKMczGe++E9sA==",
+      "type": "package",
+      "path": "pagedlist.core.mvc/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp3.0/PagedList.Core.Mvc.dll",
+        "pagedlist.core.mvc.3.0.0.nupkg.sha512",
+        "pagedlist.core.mvc.nuspec"
       ]
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -9707,7 +9734,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.1",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.1",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.1",
-      "PagedList.Core >= 1.17.4"
+      "PagedList.Core.Mvc >= 3.0.0"
     ]
   },
   "packageFolders": {
@@ -9775,9 +9802,9 @@
             "target": "Package",
             "version": "[6.0.1, )"
           },
-          "PagedList.Core": {
+          "PagedList.Core.Mvc": {
             "target": "Package",
-            "version": "[1.17.4, )"
+            "version": "[3.0.0, )"
           }
         },
         "imports": [

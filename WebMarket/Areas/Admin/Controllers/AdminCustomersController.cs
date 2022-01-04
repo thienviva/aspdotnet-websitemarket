@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using WebMarket.Models;
 
 namespace WebMarket.Areas.Admin.Controllers
@@ -21,9 +22,17 @@ namespace WebMarket.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminCustomers
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? page)
         {
-            return View(await _context.Customers.ToListAsync());
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            var pageSize = 20;
+            var lsCustomers = _context.Customers
+                .AsNoTracking()
+                .Include(x => x.Location)
+                .OrderByDescending(x => x.CreateDate);
+            PagedList<Customer> models = new PagedList<Customer>(lsCustomers,pageNumber,pageSize);
+            ViewBag.CurrentPage = pageNumber;
+            return View(models);
         }
 
         // GET: Admin/AdminCustomers/Details/5
